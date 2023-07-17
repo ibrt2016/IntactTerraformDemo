@@ -24,11 +24,11 @@ jobs:
     uses: ibrt2016/IntactTerraformDemo/.github/workflows/terraform-devops.yaml@main
     with:
       environment: Development
-      STORAGE_ACCOUNT_NAME: "${{ env. STORAGE_ACCOUNT_NAME_DEV }}"
-      RESOURCE_GROUP_NAME: "${{ env. RESOURCE_GROUP_NAME }}"
-      CONTAINER_NAME: "${{ env. CONTAINER_NAME }}"
-      BLOB_NAME: "${{ env. BLOB_NAME }}"
-      WORKING_DIRECTORY: "${{ env. WORKING_DIRECTORY }}"
+      STORAGE_ACCOUNT_NAME: "${{ env.STORAGE_ACCOUNT_NAME_DEV }}"
+      RESOURCE_GROUP_NAME: "${{ env.RESOURCE_GROUP_NAME }}"
+      CONTAINER_NAME: "${{ env.CONTAINER_NAME }}"
+      BLOB_NAME: "${{ env.BLOB_NAME }}"
+      WORKING_DIRECTORY: "${{ env.WORKING_DIRECTORY }}"
     # secrets:
     #   ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
     #   ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET}}
@@ -39,21 +39,21 @@ jobs:
     uses: ibrt2016/IntactTerraformDemo/.github/workflows/terraform-devops.yaml@main
     with:
       environment: UserAcceptanceTesting
-      STORAGE_ACCOUNT_NAME: "${{ env. STORAGE_ACCOUNT_NAME_UAT }}"
-      RESOURCE_GROUP_NAME: "${{ env. RESOURCE_GROUP_NAME }}"
-      CONTAINER_NAME: "${{ env. CONTAINER_NAME }}"
-      BLOB_NAME: "${{ env. BLOB_NAME }}"
-      WORKING_DIRECTORY: "${{ env. WORKING_DIRECTORY }}"
+      STORAGE_ACCOUNT_NAME: "${{ env.STORAGE_ACCOUNT_NAME_UAT }}"
+      RESOURCE_GROUP_NAME: "${{ env.RESOURCE_GROUP_NAME }}"
+      CONTAINER_NAME: "${{ env.CONTAINER_NAME }}"
+      BLOB_NAME: "${{ env.BLOB_NAME }}"
+      WORKING_DIRECTORY: "${{ env.WORKING_DIRECTORY }}"
 
   deploy-prod:
     name: Deploy Infra to Production
     uses: ibrt2016/IntactTerraformDemo/.github/workflows/terraform-devops.yaml@main
     with:
       environment: Production
-      STORAGE_ACCOUNT_NAME: "${{ env. STORAGE_ACCOUNT_NAME_PROD }}"
-      RESOURCE_GROUP_NAME: "${{ env. RESOURCE_GROUP_NAME }}"
-      CONTAINER_NAME: "${{ env. CONTAINER_NAME }}"
+      STORAGE_ACCOUNT_NAME: "${{ env.STORAGE_ACCOUNT_NAME_PROD }}"
+      RESOURCE_GROUP_NAME: "${{ env.RESOURCE_GROUP_NAME }}"
+      CONTAINER_NAME: "${{ env.CONTAINER_NAME }}"
       BLOB_NAME: "${{ env. BLOB_NAME }}"
-      WORKING_DIRECTORY: "${{ env. WORKING_DIRECTORY }}"
+      WORKING_DIRECTORY: "${{ env.WORKING_DIRECTORY }}"
     needs: [deploy-dev, deploy-uat]
 
