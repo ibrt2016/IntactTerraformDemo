@@ -3,6 +3,9 @@ name: 'Create Infra with Terraform'
 on:
   workflow_call:
     inputs:
+      environment: 
+        required: true
+        type: string
       STORAGE_ACCOUNT_NAME:
         required: true
         type: string
@@ -56,8 +59,8 @@ jobs:
  
   deploy-azure-infra-terraform:
     name: Deploy to Azure with Terraform
+    environment: ${{ inputs.environment }}
     runs-on: ubuntu-latest
-    environment: production
     needs: [scan-terraform-config]
 
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
