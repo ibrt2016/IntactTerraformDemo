@@ -53,7 +53,7 @@ jobs:
       STORAGE_ACCOUNT_NAME: "${{ env.STORAGE_ACCOUNT_NAME_PROD }}"
       RESOURCE_GROUP_NAME: "${{ env.RESOURCE_GROUP_NAME }}"
       CONTAINER_NAME: "${{ env.CONTAINER_NAME }}"
-      BLOB_NAME: "${{ env. BLOB_NAME }}"
+      BLOB_NAME: "${{ env.BLOB_NAME }}"
       WORKING_DIRECTORY: "${{ env.WORKING_DIRECTORY }}"
     needs: [deploy-dev, deploy-uat]
 
