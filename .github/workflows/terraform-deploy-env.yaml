@@ -39,7 +39,7 @@ jobs:
     uses: ibrt2016/IntactTerraformDemo/.github/workflows/terraform-devops.yaml@main
     with:
       environment: UserAcceptanceTesting
-      STORAGE_ACCOUNT_NAME: "${{ env. STORAGE_ACCOUNT_NAME_DEV }}"
+      STORAGE_ACCOUNT_NAME: "${{ env. STORAGE_ACCOUNT_NAME_UAT }}"
       RESOURCE_GROUP_NAME: "${{ env. RESOURCE_GROUP_NAME }}"
       CONTAINER_NAME: "${{ env. CONTAINER_NAME }}"
       BLOB_NAME: "${{ env. BLOB_NAME }}"
@@ -50,7 +50,7 @@ jobs:
     uses: ibrt2016/IntactTerraformDemo/.github/workflows/terraform-devops.yaml@main
     with:
       environment: Production
-      STORAGE_ACCOUNT_NAME: "${{ env. STORAGE_ACCOUNT_NAME_DEV }}"
+      STORAGE_ACCOUNT_NAME: "${{ env. STORAGE_ACCOUNT_NAME_PROD }}"
       RESOURCE_GROUP_NAME: "${{ env. RESOURCE_GROUP_NAME }}"
       CONTAINER_NAME: "${{ env. CONTAINER_NAME }}"
       BLOB_NAME: "${{ env. BLOB_NAME }}"
