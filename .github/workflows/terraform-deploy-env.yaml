@@ -24,37 +24,53 @@ jobs:
     name: Deploy Infra to Development
     uses: ibrt2016/IntactTerraformDemo/.github/workflows/terraform-devops.yaml@main
     with:
-      environment: Development
+      gh_environment: Development
       storage_account_name: sabe1221dev
       resource_group_name: rg-terraform-state
       container_name: tfstate
       blob_name: terraform.tfstate
       working_directory: terraform
-    # secrets:
-    #   ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
-    #   ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET}}
-    #   ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID}}
-    #   ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+      tf_vars_file: dev.tfvars
+    secrets:
+      ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET}}
+      ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID}}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+      AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
   deploy-uat:
     name: Deploy Infra to UAT
     uses: ibrt2016/IntactTerraformDemo/.github/workflows/terraform-devops.yaml@main
     with:
-      environment: UserAcceptanceTesting
+      gh_environment: UserAcceptanceTesting
       storage_account_name: sabe1221uat
       resource_group_name: rg-terraform-state
       container_name: tfstate
       blob_name: terraform.tfstate
       working_directory: terraform
+      tf_vars_file: uat.tfvars
+    secrets:
+      ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET}}
+      ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID}}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+      AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
 
   deploy-prod:
     name: Deploy Infra to Production
     uses: ibrt2016/IntactTerraformDemo/.github/workflows/terraform-devops.yaml@main
     with:
-      environment: Production
+      gh_environment: Production
       storage_account_name: sabe1221prod
       resource_group_name: rg-terraform-state
       container_name: tfstate
       blob_name: terraform.tfstate
       working_directory: terraform
+      tf_vars_file: prod.tfvars
+    secrets:
+      ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET}}
+      ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID}}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+      AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
     needs: [deploy-dev, deploy-uat]
 

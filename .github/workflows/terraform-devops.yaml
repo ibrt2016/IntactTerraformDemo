@@ -3,7 +3,7 @@ name: 'Create Infra with Terraform'
 on:
   workflow_call:
     inputs:
-      environment: 
+      gh_environment: 
         required: true
         type: string
       storage_account_name:
@@ -21,17 +21,23 @@ on:
       working_directory:
         required: true
         type: string
-    # secrets:
-    #   ARM_CLIENT_ID:
-    #     required: false
-    #   ARM_CLIENT_SECRET:
-    #     required: false
-    #   ARM_TENANT_ID:
-    #     required: false
-    #   ARM_SUBSCRIPTION_ID:
-    #     required: false
+      tf_vars_file:
+        required: true
+        type: string
+    secrets:
+      ARM_CLIENT_ID:
+        required: true
+      ARM_CLIENT_SECRET:
+        required: true
+      ARM_TENANT_ID:
+        required: true
+      ARM_SUBSCRIPTION_ID:
+        required: true
+      AZURE_CREDENTIALS:
+        required: true
+      
 env:
-  ENVIRONMENT: ${{ inputs.environment }}
+  GH_ENVIRONMENT: ${{ inputs.gh_environment }}
   STORAGE_ACCOUNT_NAME: ${{ inputs.storage_account_name }}
   RESOURCE_GROUP_NAME: ${{ inputs.resource_group_name }}
   CONTAINER_NAME: ${{ inputs.container_name }}
@@ -51,7 +57,7 @@ jobs:
         shell: bash
         run: |
          echo "WorkDir: $WORKING_DIRECTORY"
-         echo "Environment: $ENVIRONMENT"
+         echo "Environment: $GH_ENVIRONMENT"
          echo "STORAGE_ACCOUNT_NAME: $STORAGE_ACCOUNT_NAME"
          echo "RESOURCE_GROUP_NAME: $RESOURCE_GROUP_NAME"
          echo "CONTAINER_NAME: $CONTAINER_NAME"
@@ -76,7 +82,7 @@ jobs:
  
   deploy-azure-infra-terraform:
     name: Deploy to Azure with Terraform
-    environment: ${{ inputs.environment }}
+    environment: ${{ inputs.gh_environment }}
     runs-on: ubuntu-latest
     needs: [scan-terraform-config]
 
@@ -176,7 +182,7 @@ jobs:
         ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
       if: github.event_name == 'pull_request' # 'push' # 
       run: |
-        terraform plan -var-file="$ENVIRONMENT.tfvars" -no-color 
+        terraform plan -var-file="${{ inputs.tf_vars_file }}" -no-color 
         # terraform plan -out tfplan -no-color 
         
         # # show the tfplan file
@@ -226,4 +232,4 @@ jobs:
         ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
         ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
         ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
-      run: terraform apply -var-file="$ENVIRONMENT.tfvars" -auto-approve
+      run: terraform apply -var-file="${{ inputs.tf_vars_file }}" -auto-approve
