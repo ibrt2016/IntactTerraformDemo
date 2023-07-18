@@ -10,14 +10,14 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
   
-env:
-  STORAGE_ACCOUNT_NAME_DEV: sabe1221dev
-  STORAGE_ACCOUNT_NAME_UAT: sabe1221uat
-  STORAGE_ACCOUNT_NAME_PROD: sabe1221prod
-  RESOURCE_GROUP_NAME: rg-terraform-state
-  CONTAINER_NAME: tfstate
-  BLOB_NAME: terraform.tfstate
-  WORKING_DIRECTORY: terraform
+# env:
+#   STORAGE_ACCOUNT_NAME_DEV: sabe1221dev
+#   STORAGE_ACCOUNT_NAME_UAT: sabe1221uat
+#   STORAGE_ACCOUNT_NAME_PROD: sabe1221prod
+#   RESOURCE_GROUP_NAME: rg-terraform-state
+#   CONTAINER_NAME: tfstate
+#   BLOB_NAME: terraform.tfstate
+#   WORKING_DIRECTORY: terraform
   
 jobs:
   deploy-dev:
@@ -25,11 +25,11 @@ jobs:
     uses: ibrt2016/IntactTerraformDemo/.github/workflows/terraform-devops.yaml@main
     with:
       environment: Development
-      storage_account_name: $STORAGE_ACCOUNT_NAME_DEV
-      resource_group_name: $RESOURCE_GROUP_NAME
-      container_name: $CONTAINER_NAME
-      blob_name: $BLOB_NAME
-      working_directory: $WORKING_DIRECTORY
+      storage_account_name: sabe1221dev
+      resource_group_name: rg-terraform-state
+      container_name: tfstate
+      blob_name: terraform.tfstate
+      working_directory: terraform
     # secrets:
     #   ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
     #   ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET}}
@@ -40,21 +40,21 @@ jobs:
     uses: ibrt2016/IntactTerraformDemo/.github/workflows/terraform-devops.yaml@main
     with:
       environment: UserAcceptanceTesting
-      storage_account_name: $STORAGE_ACCOUNT_NAME_UAT
-      resource_group_name: $RESOURCE_GROUP_NAME
-      container_name: $CONTAINER_NAME
-      blob_name: $BLOB_NAME
-      working_directory: $WORKING_DIRECTORY
+      storage_account_name: sabe1221uat
+      resource_group_name: rg-terraform-state
+      container_name: tfstate
+      blob_name: terraform.tfstate
+      working_directory: terraform
 
   deploy-prod:
     name: Deploy Infra to Production
     uses: ibrt2016/IntactTerraformDemo/.github/workflows/terraform-devops.yaml@main
     with:
       environment: Production
-      storage_account_name: $STORAGE_ACCOUNT_NAME_PROD
-      resource_group_name: $RESOURCE_GROUP_NAME
-      container_name: $CONTAINER_NAME
-      blob_name: $BLOB_NAME
-      working_directory: $WORKING_DIRECTORY
+      storage_account_name: sabe1221prod
+      resource_group_name: rg-terraform-state
+      container_name: tfstate
+      blob_name: terraform.tfstate
+      working_directory: terraform
     needs: [deploy-dev, deploy-uat]
 
