@@ -48,6 +48,7 @@ env:
 jobs:
   scan-terraform-config:
     runs-on: ubuntu-latest
+    if:  ${{ inputs.gh_environment  == 'Development' || inputs.gh_environment  == 'UserAcceptanceTesting' }}
     name: Scan Terraform with Checov
     steps:
       - name: Checkout repo
@@ -95,13 +96,7 @@ jobs:
     steps:
     # Checkout the repository to the GitHub Actions runner
     - name: Checkout
-      uses: actions/checkout@v2
-
-    - name: Show secrets
-      shell: bash
-      run: |
-        echo "Env is: ${{ vars.ENV }}" 
-    
+      uses: actions/checkout@v2    
                 
     - name: Login to Azure with Service Principal
       uses: Azure/login@v1.4.3
