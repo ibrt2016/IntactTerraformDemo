@@ -25,11 +25,11 @@ jobs:
     uses: ibrt2016/IntactTerraformDemo/.github/workflows/terraform-devops.yaml@main
     with:
       environment: Development
-      STORAGE_ACCOUNT_NAME: "${{ env.STORAGE_ACCOUNT_NAME_DEV }}"
-      RESOURCE_GROUP_NAME: "${{ env.RESOURCE_GROUP_NAME }}"
-      CONTAINER_NAME: "${{ env.CONTAINER_NAME }}"
-      BLOB_NAME: "${{ env.BLOB_NAME }}"
-      WORKING_DIRECTORY: "${{ env.WORKING_DIRECTORY }}"
+      STORAGE_ACCOUNT_NAME: ${{ env.STORAGE_ACCOUNT_NAME_DEV }}
+      RESOURCE_GROUP_NAME: ${{ env.RESOURCE_GROUP_NAME }}
+      CONTAINER_NAME: ${{ env.CONTAINER_NAME }}
+      BLOB_NAME: ${{ env.BLOB_NAME }}
+      WORKING_DIRECTORY: ${{ env.WORKING_DIRECTORY }}
     # secrets:
     #   ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
     #   ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET}}
