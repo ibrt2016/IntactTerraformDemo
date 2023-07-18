@@ -6,19 +6,19 @@ on:
       environment: 
         required: true
         type: string
-      STORAGE_ACCOUNT_NAME:
+      storage_account_name:
         required: true
         type: string
-      RESOURCE_GROUP_NAME:
+      resource_group_name:
         required: true
         type: string
-      CONTAINER_NAME:
+      container_name:
         required: true
         type: string
-      BLOB_NAME:
+      blob_name:
         required: true
         type: string
-      WORKING_DIRECTORY:
+      working_directory:
         required: true
         type: string
     # secrets:
@@ -31,12 +31,12 @@ on:
     #   ARM_SUBSCRIPTION_ID:
     #     required: false
 env:
-  environment: ${{ inputs.environment }}
-  STORAGE_ACCOUNT_NAME: ${{ inputs.STORAGE_ACCOUNT_NAME }}
-  RESOURCE_GROUP_NAME: ${{ inputs.RESOURCE_GROUP_NAME }}
-  CONTAINER_NAME: ${{ inputs.CONTAINER_NAME }}
-  BLOB_NAME: ${{ inputs.BLOB_NAME }}
-  WORKING_DIRECTORY: ${{ inputs.WORKING_DIRECTORY }}
+  ENVIRONMENT: ${{ inputs.environment }}
+  STORAGE_ACCOUNT_NAME: ${{ inputs.storage_account_name }}
+  RESOURCE_GROUP_NAME: ${{ inputs.resource_group_name }}
+  CONTAINER_NAME: ${{ inputs.container_name }}
+  BLOB_NAME: ${{ inputs.blob_name }}
+  WORKING_DIRECTORY: ${{ inputs.working_directory }}
 
 
 jobs:
@@ -51,7 +51,7 @@ jobs:
         shell: bash
         run: |
          echo "WorkDir: $WORKING_DIRECTORY"
-         echo "Environment: $environment"
+         echo "Environment: $ENVIRONMENT"
          echo "STORAGE_ACCOUNT_NAME: $STORAGE_ACCOUNT_NAME"
          echo "RESOURCE_GROUP_NAME: $RESOURCE_GROUP_NAME"
          echo "CONTAINER_NAME: $CONTAINER_NAME"
@@ -76,7 +76,7 @@ jobs:
  
   deploy-azure-infra-terraform:
     name: Deploy to Azure with Terraform
-    environment: $environment
+    environment: $ENVIRONMENT
     runs-on: ubuntu-latest
     needs: [scan-terraform-config]
 
@@ -170,7 +170,7 @@ jobs:
         ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
       if: github.event_name == 'pull_request' # 'push' # 
       run: |
-        terraform plan -var-file="$environment.tfvars" -no-color 
+        terraform plan -var-file="$ENVIRONMENT.tfvars" -no-color 
         # terraform plan -out tfplan -no-color 
         
         # # show the tfplan file
@@ -220,4 +220,4 @@ jobs:
         ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
         ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
         ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
-      run: terraform apply -var-file="$environment.tfvars" -auto-approve
+      run: terraform apply -var-file="$ENVIRONMENT.tfvars" -auto-approve
