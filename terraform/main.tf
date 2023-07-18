@@ -143,7 +143,7 @@ module "sacc" {
 
   lifecycles = [
     {
-      prefix_match               = ["mystore250/folder_path"]
+      prefix_match               = ["mystore250/folder_path1"]
       tier_to_cool_after_days    = 0
       tier_to_archive_after_days = 50
       delete_after_days          = 100
