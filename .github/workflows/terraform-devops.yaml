@@ -47,6 +47,16 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@main
 
+      - name: Any Name Bash Test Step
+        shell: bash
+        run: |
+         echo "WorkDir: $WORKING_DIRECTORY"
+         echo "Environment: $environment"
+         echo "STORAGE_ACCOUNT_NAME: $STORAGE_ACCOUNT_NAME"
+         echo "RESOURCE_GROUP_NAME: $RESOURCE_GROUP_NAME"
+         echo "CONTAINER_NAME: $CONTAINER_NAME"
+         echo "BLOB_NAME: $BLOB_NAME"
+
       - name: Run Checkov Scan
         id: checkov
         uses: bridgecrewio/checkov-action@master
