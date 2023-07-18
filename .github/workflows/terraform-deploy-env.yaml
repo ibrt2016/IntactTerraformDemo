@@ -6,7 +6,7 @@ on:
     paths: .github/workflows/terraform-deploy-env.yaml
   pull_request:
     branches:  none # [ main ]
-    paths: .github/workflows/terraform-deploy-env.yaml
+    #paths: .github/workflows/terraform-deploy-env.yaml
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
   
