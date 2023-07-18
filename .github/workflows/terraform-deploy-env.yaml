@@ -10,9 +10,9 @@ on:
   workflow_dispatch:
   
 env:
-  STORAGE_ACCOUNT_NAME_DEV: sa1221dev
-  STORAGE_ACCOUNT_NAME_UAT: sa1221uat
-  STORAGE_ACCOUNT_NAME_PROD: sa1221prod
+  STORAGE_ACCOUNT_NAME_DEV: sabe1221dev
+  STORAGE_ACCOUNT_NAME_UAT: sabe1221uat
+  STORAGE_ACCOUNT_NAME_PROD: sabe1221prod
   RESOURCE_GROUP_NAME: rg-terraform-state
   CONTAINER_NAME: tfstate
   BLOB_NAME: terraform.tfstate
