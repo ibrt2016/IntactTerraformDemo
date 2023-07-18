@@ -3,7 +3,7 @@ name: 'Create Infra with Terraform'
 on:
   push:
     branches: [ main ]
-    paths: .github/workflows/terraform-deploy-env.yaml
+    #paths: .github/workflows/terraform-deploy-env.yaml
   pull_request:
     branches: [ main ]
     paths: .github/workflows/terraform-deploy-env.yaml
@@ -26,7 +26,7 @@ jobs:
     with:
       environment: Development
       STORAGE_ACCOUNT_NAME: $STORAGE_ACCOUNT_NAME_DEV
-      RESOURCE_GROUP_NAME: $ESOURCE_GROUP_NAME
+      RESOURCE_GROUP_NAME: $RESOURCE_GROUP_NAME
       CONTAINER_NAME: $CONTAINER_NAME
       BLOB_NAME: $BLOB_NAME
       WORKING_DIRECTORY: $WORKING_DIRECTORY
