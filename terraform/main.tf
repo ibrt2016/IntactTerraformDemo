@@ -195,6 +195,11 @@ module "monitor" {
       name                    = "monitoring-team"
       use_common_alert_schema = false
     }
+    webhook_receiver = {
+      name                    = "ServiceNow"
+      service_uri             = "https://Event_Management_Azure:KSRQYCYkWY4wKm2uSA@tieto.service-now.com/api/global/em/inbound_event?source=AzureLogAnalyticsEvent"
+      use_common_alert_schema = false
+    }
   }
 
   metric_alerts = {
