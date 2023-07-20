@@ -11,7 +11,7 @@ jobs:
   scan-terraform-config:
     runs-on: ubuntu-latest
     name: Scan Terraform configuration files using Checkov
-    if: github.event_name == 'pull_request'
+    #if: github.event_name == 'pull_request'
     steps:
       - name: Checkout repo
         uses: actions/checkout@main
