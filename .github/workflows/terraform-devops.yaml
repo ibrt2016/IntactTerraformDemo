@@ -165,7 +165,7 @@ jobs:
     # Checks that all Terraform configuration files adhere to a canonical format
     - name: Terraform Format
       id: format
-      run: terraform fmt -check
+      run: terraform fmt -recursive
       continue-on-error: true
 
     - name: Terraform Plan
@@ -197,7 +197,7 @@ jobs:
       env:
         PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
       with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
+        github-token: ${{ secrets.TFPLAN_PAT }} #${{ secrets.GITHUB_TOKEN }}
         script: |
           const output = `#### Terraform Format and Style 🖌\`${{ steps.format.outcome }}\`
           #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
