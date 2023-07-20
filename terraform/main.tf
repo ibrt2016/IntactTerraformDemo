@@ -108,170 +108,170 @@ resource "azurerm_resource_group" "example" {
 locals {
   user_assigned_identity = toset(var.user_assigned_identity)
 }
-resource "azurerm_user_assigned_identity" "example" {
-  for_each            = local.user_assigned_identity
-  resource_group_name = azurerm_resource_group.example.name
-  location            = var.location
-  name                = each.key
-}
+# resource "azurerm_user_assigned_identity" "example" {
+#   for_each            = local.user_assigned_identity
+#   resource_group_name = azurerm_resource_group.example.name
+#   location            = var.location
+#   name                = each.key
+# }
 
-module "sacc" {
-  source = "./StorageAccount"
+# module "sacc" {
+#   source = "./StorageAccount"
 
-  resource_group_name  = azurerm_resource_group.example.name
-  location             = var.location
-  storage_account_name = var.storage_account_name
+#   resource_group_name  = azurerm_resource_group.example.name
+#   location             = var.location
+#   storage_account_name = var.storage_account_name
 
-  enable_advanced_threat_protection = true
+#   enable_advanced_threat_protection = true
 
-  containers_list = [
-    { name = "mystore250", access_type = "private" },
-    { name = "blobstore251", access_type = "blob" },
-    { name = "containter252", access_type = "container" }
-  ]
+#   containers_list = [
+#     { name = "mystore250", access_type = "private" },
+#     { name = "blobstore251", access_type = "blob" },
+#     { name = "containter252", access_type = "container" }
+#   ]
 
-  file_shares = [
-    { name = "smbfileshare1", quota = 50 },
-    { name = "smbfileshare2", quota = 50 }
-  ]
+#   file_shares = [
+#     { name = "smbfileshare1", quota = 50 },
+#     { name = "smbfileshare2", quota = 50 }
+#   ]
 
-  tables = ["table1", "table2", "table3"]
-  queues = ["queue1", "queue2"]
+#   tables = ["table1", "table2", "table3"]
+#   queues = ["queue1", "queue2"]
 
-  # managed_identity_type = "UserAssigned"
-  # managed_identity_ids  = [for k in azurerm_user_assigned_identity.example : k.id]
+#   # managed_identity_type = "UserAssigned"
+#   # managed_identity_ids  = [for k in azurerm_user_assigned_identity.example : k.id]
 
-  lifecycles = [
-    {
-      prefix_match               = ["mystore250/folder_path1"]
-      tier_to_cool_after_days    = 0
-      tier_to_archive_after_days = 50
-      delete_after_days          = 100
-      snapshot_delete_after_days = 30
-    },
-    {
-      prefix_match               = ["blobstore251/another_path"]
-      tier_to_cool_after_days    = 0
-      tier_to_archive_after_days = 30
-      delete_after_days          = 75
-      snapshot_delete_after_days = 30
-    }
-  ]
+#   lifecycles = [
+#     {
+#       prefix_match               = ["mystore250/folder_path1"]
+#       tier_to_cool_after_days    = 0
+#       tier_to_archive_after_days = 50
+#       delete_after_days          = 100
+#       snapshot_delete_after_days = 30
+#     },
+#     {
+#       prefix_match               = ["blobstore251/another_path"]
+#       tier_to_cool_after_days    = 0
+#       tier_to_archive_after_days = 30
+#       delete_after_days          = 75
+#       snapshot_delete_after_days = 30
+#     }
+#   ]
 
-  tags = {
-    ProjectName  = "demo-internal"
-    Env          = "dev"
-    Owner        = "user@example.com"
-    BusinessUnit = "CORP"
-    ServiceClass = "Gold"
-  }
+#   tags = {
+#     ProjectName  = "demo-internal"
+#     Env          = "dev"
+#     Owner        = "user@example.com"
+#     BusinessUnit = "CORP"
+#     ServiceClass = "Gold"
+#   }
 
-  depends_on = [azurerm_resource_group.example]
+#   depends_on = [azurerm_resource_group.example]
 
-}
+# }
 
-module "app-isnights" {
-  source              = "./ApplicationInsights"
-  resource_group_name = azurerm_resource_group.example.name
-  application_insights_config = {
-    mydemoappinsightworkspace = {
-      application_type = "web"
+# module "app-isnights" {
+#   source              = "./ApplicationInsights"
+#   resource_group_name = azurerm_resource_group.example.name
+#   application_insights_config = {
+#     mydemoappinsightworkspace = {
+#       application_type = "web"
 
-    }
-  }
-  depends_on = [ azurerm_resource_group.example ]
-}
+#     }
+#   }
+#   depends_on = [ azurerm_resource_group.example ]
+# }
 
-module "azmonitor-action-groups" {
-  source = "./AzureMonitor/AzMonitor-ActionGroups"
+# module "azmonitor-action-groups" {
+#   source = "./AzureMonitor/AzMonitor-ActionGroups"
 
-  tags = {
-    Application = "Azure Monitor Alerts"
-    CostCentre  = "123"
-    Environment = "dev"
-    ManagedBy   = "Jesse Loudon"
-    Owner       = "Jesse Loudon"
-    Support     = "coder_au@outlook.com"
-  }
+#   tags = {
+#     Application = "Azure Monitor Alerts"
+#     CostCentre  = "123"
+#     Environment = "dev"
+#     ManagedBy   = "Jesse Loudon"
+#     Owner       = "Jesse Loudon"
+#     Support     = "coder_au@outlook.com"
+#   }
 
-  actionGroups = {
-    "group1" = {
-      actionGroupName      = "AlertEscalationGroup"
-      actionGroupShortName = "alertesc"
-      actionGroupRGName    = module.sacc.resource_group_name
-      actionGroupEnabled   = "true"
-      actionGroupEmailReceiver = [
-        {
-          name                    = "jloudon"
-          email_address           = "coder_au@outlook.com"
-          use_common_alert_schema = "true"
-        }
-      ]
-    },
-    "group2" = {
-      actionGroupName      = "AlertOperationsGroup"
-      actionGroupShortName = "alertops"
-      actionGroupRGName    = module.sacc.resource_group_name
-      actionGroupEnabled   = "true"
-      actionGroupEmailReceiver = [
-        {
-          name                    = "jloudon"
-          email_address           = "coder_au@outlook.com"
-          use_common_alert_schema = "true"
-        }
-      ]
-    }
-  }
-}
+#   actionGroups = {
+#     "group1" = {
+#       actionGroupName      = "AlertEscalationGroup"
+#       actionGroupShortName = "alertesc"
+#       actionGroupRGName    = module.sacc.resource_group_name
+#       actionGroupEnabled   = "true"
+#       actionGroupEmailReceiver = [
+#         {
+#           name                    = "jloudon"
+#           email_address           = "coder_au@outlook.com"
+#           use_common_alert_schema = "true"
+#         }
+#       ]
+#     },
+#     "group2" = {
+#       actionGroupName      = "AlertOperationsGroup"
+#       actionGroupShortName = "alertops"
+#       actionGroupRGName    = module.sacc.resource_group_name
+#       actionGroupEnabled   = "true"
+#       actionGroupEmailReceiver = [
+#         {
+#           name                    = "jloudon"
+#           email_address           = "coder_au@outlook.com"
+#           use_common_alert_schema = "true"
+#         }
+#       ]
+#     }
+#   }
+# }
 
-################
-module "azmonitor-metric-alerts" {
-  source = "./AzureMonitor/AzMonitor-MetricAlerts"
+# ################
+# module "azmonitor-metric-alerts" {
+#   source = "./AzureMonitor/AzMonitor-MetricAlerts"
 
-  tags = {
-    Application = "Azure Monitor Alerts"
-    CostCentre  = "123"
-    Environment = "dev"
-    ManagedBy   = "Jesse Loudon"
-    Owner       = "Jesse Loudon"
-    Support     = "coder_au@outlook.com"
-  }
+#   tags = {
+#     Application = "Azure Monitor Alerts"
+#     CostCentre  = "123"
+#     Environment = "dev"
+#     ManagedBy   = "Jesse Loudon"
+#     Owner       = "Jesse Loudon"
+#     Support     = "coder_au@outlook.com"
+#   }
 
-  alertScope = {
-    "resource1" = {
-      resourceName  = module.sacc.storage_account_name
-      resourceGroup = module.sacc.resource_group_name
-      resourceType  = "Microsoft.Storage/StorageAccounts"
-    }
-  }
+#   alertScope = {
+#     "resource1" = {
+#       resourceName  = module.sacc.storage_account_name
+#       resourceGroup = module.sacc.resource_group_name
+#       resourceType  = "Microsoft.Storage/StorageAccounts"
+#     }
+#   }
 
-  metricStaticAlerts-noDimensions =  {
-    "alert1" = {
-      alertName              = "Used_Capacity-Critical"
-      alertResourceGroupName = module.sacc.resource_group_name
-      alertScopes = [
-        module.azmonitor-metric-alerts.alert-scope["0"].resource1.resources[0].id
-      ]
-      alertDescription            = "The percentage use of a storage account"
-      alertEnabled                = "true"
-      alertAutoMitigate           = "true"
-      alertFrequency              = "PT5M"
-      alertWindowSize             = "PT6H"
-      alertSeverity               = 0
-      #alertThreshold              = 4947802324992
-      alertTargetResourceType     = "Microsoft.Storage/StorageAccounts"
-      alertTargetResourceLoc      = module.sacc.resource_group_location
-      staticCriteriaMetricNamespace  = "Microsoft.Storage/StorageAccounts"
-      staticCriteriaMetricName       = "UsedCapacity"
-      staticCriteriaAggregation      = "Average"
-      staticCriteriaOperator         = "GreaterThan"
-      staticCriteriaThreshold = 4947802324992
+#   metricStaticAlerts-noDimensions =  {
+#     "alert1" = {
+#       alertName              = "Used_Capacity-Critical"
+#       alertResourceGroupName = module.sacc.resource_group_name
+#       alertScopes = [
+#         module.azmonitor-metric-alerts.alert-scope["0"].resource1.resources[0].id
+#       ]
+#       alertDescription            = "The percentage use of a storage account"
+#       alertEnabled                = "true"
+#       alertAutoMitigate           = "true"
+#       alertFrequency              = "PT5M"
+#       alertWindowSize             = "PT6H"
+#       alertSeverity               = 0
+#       #alertThreshold              = 4947802324992
+#       alertTargetResourceType     = "Microsoft.Storage/StorageAccounts"
+#       alertTargetResourceLoc      = module.sacc.resource_group_location
+#       staticCriteriaMetricNamespace  = "Microsoft.Storage/StorageAccounts"
+#       staticCriteriaMetricName       = "UsedCapacity"
+#       staticCriteriaAggregation      = "Average"
+#       staticCriteriaOperator         = "GreaterThan"
+#       staticCriteriaThreshold = 4947802324992
       
       
-      actionGroupID = module.azmonitor-action-groups.ag["0"].group1.id
-    }
- }
-}
+#       actionGroupID = module.azmonitor-action-groups.ag["0"].group1.id
+#     }
+#  }
+# }
 
 ##########################
 
