@@ -245,7 +245,7 @@ module "azmonitor-metric-alerts" {
     }
   }
 
-  metricAlerts = {
+  metricStaticAlerts-noDimensions =  {
     "alert1" = {
       alertName              = "Used_Capacity-Critical"
       alertResourceGroupName = module.sacc.resource_group_name
@@ -258,14 +258,15 @@ module "azmonitor-metric-alerts" {
       alertFrequency              = "PT5M"
       alertWindowSize             = "PT6H"
       alertSeverity               = 0
+      #alertThreshold              = 4947802324992
       alertTargetResourceType     = "Microsoft.Storage/StorageAccounts"
       alertTargetResourceLoc      = module.sacc.resource_group_location
-      dynCriteriaMetricNamespace  = "Microsoft.Storage/StorageAccounts"
-      dynCriteriaMetricName       = "UsedCapacity"
-      dynCriteriaAggregation      = "Average"
-      dynCriteriaOperator         = "GreaterThan"
-      dynCriteriaThreshold        = 4947802324992
-      dynCriteriaAlertSensitivity = "Medium"
+      staticCriteriaMetricNamespace  = "Microsoft.Storage/StorageAccounts"
+      staticCriteriaMetricName       = "UsedCapacity"
+      staticCriteriaAggregation      = "Average"
+      staticCriteriaOperator         = "GreaterThan"
+      staticCriteriaThreshold = 4947802324992
+      
       
       actionGroupID = module.azmonitor-action-groups.ag["0"].group1.id
     }
