@@ -182,40 +182,131 @@ module "app-isnights" {
   depends_on = [ azurerm_resource_group.example ]
 }
 
-module "monitor" {
-  source = "./AzureMonitoring"
-  resource_group_name = azurerm_resource_group.example.name
-  location = var.location
+module "azmonitor-action-groups" {
+  source = "./AzureMonitor/AzMonitor-ActionGroups"
 
-  action_group = {
-    name       = "example-action-group"
-    short_name = "expaag"
-    email_receiver = {
-      email_address           = "ibrt2012@gmail.com"
-      name                    = "monitoring-team"
-      use_common_alert_schema = false
-    }
-    webhook_receiver = {
-      name                    = "ServiceNow"
-      service_uri             = "https://Event_Management_Azure:KSRQYCYkWY4wKm2uSA@tieto.service-now.com/api/global/em/inbound_event?source=AzureLogAnalyticsEvent"
-      use_common_alert_schema = false
-    }
+  tags = {
+    Application = "Azure Monitor Alerts"
+    CostCentre  = "123"
+    Environment = "dev"
+    ManagedBy   = "Jesse Loudon"
+    Owner       = "Jesse Loudon"
+    Support     = "coder_au@outlook.com"
   }
 
-  metric_alerts = {
-    "Used_Capacity-Critical" = {
-      description = "The percentage use of a storage account"
-      frequency   = "PT5M"
-      severity    = 0
-      scopes      = [module.sacc.storage_account_id]
-      window_size = "PT6H"
-      criteria = {
-        metric_namespace = "Microsoft.Storage/StorageAccounts"
-        metric_name      = "UsedCapacity"
-        aggregation      = "Average"
-        operator         = "GreaterThan"
-        threshold        = 4947802324992 #Alert will be triggered once it's breach 90% of threshold
-      }
+  actionGroups = {
+    "group1" = {
+      actionGroupName      = "AlertEscalationGroup"
+      actionGroupShortName = "alertesc"
+      actionGroupRGName    = "AzMonitorAlertGroups"
+      actionGroupEnabled   = "true"
+      actionGroupEmailReceiver = [
+        {
+          name                    = "jloudon"
+          email_address           = "coder_au@outlook.com"
+          use_common_alert_schema = "true"
+        }
+      ]
     },
+    "group2" = {
+      actionGroupName      = "AlertOperationsGroup"
+      actionGroupShortName = "alertops"
+      actionGroupRGName    = "AzMonitorAlertGroups"
+      actionGroupEnabled   = "true"
+      actionGroupEmailReceiver = [
+        {
+          name                    = "jloudon"
+          email_address           = "coder_au@outlook.com"
+          use_common_alert_schema = "true"
+        }
+      ]
+    }
   }
 }
+
+################
+module "azmonitor-metric-alerts" {
+  source = "./AzureMonitor/AzMonitor-MetricAlerts"
+
+  tags = {
+    Application = "Azure Monitor Alerts"
+    CostCentre  = "123"
+    Environment = "dev"
+    ManagedBy   = "Jesse Loudon"
+    Owner       = "Jesse Loudon"
+    Support     = "coder_au@outlook.com"
+  }
+
+  alertScope = {
+    "resource1" = {
+      resourceName  = module.sacc.storage_account_name
+      resourceGroup = module.sacc.resource_group_name
+      resourceType  = "Microsoft.Storage/StorageAccounts"
+    }
+  }
+
+  metricAlerts = {
+    "alert1" = {
+      alertName              = "Used_Capacity-Critical"
+      alertResourceGroupName = module.sacc.resource_group_name
+      alertScopes = [
+        module.azmonitor-metric-alerts.alert-scope["0"].resource1.resources[0].id
+      ]
+      alertDescription            = "The percentage use of a storage account"
+      alertEnabled                = "true"
+      alertAutoMitigate           = "true"
+      alertFrequency              = "PT5M"
+      alertWindowSize             = "PT6H"
+      alertSeverity               = 0
+      alertTargetResourceType     = "Microsoft.Storage/StorageAccounts"
+      alertTargetResourceLoc      = module.sacc.resource_group_location
+      dynCriteriaMetricNamespace  = "Microsoft.Storage/StorageAccounts"
+      dynCriteriaMetricName       = "UsedCapacity"
+      dynCriteriaAggregation      = "Average"
+      dynCriteriaOperator         = "GreaterThan"
+      dynCriteriaThreshold        = 4947802324992
+      dynCriteriaAlertSensitivity = "Medium"
+      
+      actionGroupID = module.azmonitor-action-groups.ag["0"].group1.id
+    }
+}
+
+#######################
+
+# module "monitor" {
+#   source = "./AzureMonitoring"
+#   resource_group_name = azurerm_resource_group.example.name
+#   location = var.location
+
+#   action_group = {
+#     name       = "example-action-group"
+#     short_name = "expaag"
+#     email_receiver = {
+#       email_address           = "ibrt2012@gmail.com"
+#       name                    = "monitoring-team"
+#       use_common_alert_schema = false
+#     }
+#     webhook_receiver = {
+#       name                    = "ServiceNow"
+#       service_uri             = "https://Event_Management_Azure:KSRQYCYkWY4wKm2uSA@tieto.service-now.com/api/global/em/inbound_event?source=AzureLogAnalyticsEvent"
+#       use_common_alert_schema = false
+#     }
+#   }
+
+#   metric_alerts = {
+#     "Used_Capacity-Critical" = {
+#       description = "The percentage use of a storage account"
+#       frequency   = "PT5M"
+#       severity    = 0
+#       scopes      = [module.sacc.storage_account_id]
+#       window_size = "PT6H"
+#       criteria = {
+#         metric_namespace = "Microsoft.Storage/StorageAccounts"
+#         metric_name      = "UsedCapacity"
+#         aggregation      = "Average"
+#         operator         = "GreaterThan"
+#         threshold        = 4947802324992 #Alert will be triggered once it's breach 90% of threshold
+#       }
+#     },
+#   }
+# }
