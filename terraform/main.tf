@@ -108,12 +108,12 @@ resource "azurerm_resource_group" "example" {
 locals {
   user_assigned_identity = toset(var.user_assigned_identity)
 }
-# resource "azurerm_user_assigned_identity" "example" {
-#   for_each            = local.user_assigned_identity
-#   resource_group_name = azurerm_resource_group.example.name
-#   location            = var.location
-#   name                = each.key
-# }
+resource "azurerm_user_assigned_identity" "example" {
+  for_each            = local.user_assigned_identity
+  resource_group_name = azurerm_resource_group.example.name
+  location            = var.location
+  name                = each.key
+}
 
 # module "sacc" {
 #   source = "./StorageAccount"
