@@ -198,7 +198,7 @@ module "azmonitor-action-groups" {
     "group1" = {
       actionGroupName      = "AlertEscalationGroup"
       actionGroupShortName = "alertesc"
-      actionGroupRGName    = "AzMonitorAlertGroups"
+      actionGroupRGName    = module.sacc.resource_group_name
       actionGroupEnabled   = "true"
       actionGroupEmailReceiver = [
         {
@@ -211,7 +211,7 @@ module "azmonitor-action-groups" {
     "group2" = {
       actionGroupName      = "AlertOperationsGroup"
       actionGroupShortName = "alertops"
-      actionGroupRGName    = "AzMonitorAlertGroups"
+      actionGroupRGName    = module.sacc.resource_group_name
       actionGroupEnabled   = "true"
       actionGroupEmailReceiver = [
         {
