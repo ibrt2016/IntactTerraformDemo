@@ -81,7 +81,6 @@ resource "azurerm_monitor_metric_alert" "alert-static-nodimensions" {
     metric_name       = each.value.staticCriteriaMetricName
     aggregation       = each.value.staticCriteriaAggregation
     operator          = each.value.staticCriteriaOperator
-    alert_sensitivity = each.value.staticCriteriaAlertSensitivity
     threshold         = each.value.staticCriteriaThreshold
   }
   

@@ -78,7 +78,6 @@ variable "metricStaticAlerts-noDimensions" {
     staticCriteriaAggregation      = string
     staticCriteriaOperator         = string
     staticCriteriaThreshold        = number
-    staticCriteriaAlertSensitivity = string
     actionGroupID               = string
   }))
   default = {}

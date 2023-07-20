@@ -265,7 +265,6 @@ module "azmonitor-metric-alerts" {
       staticCriteriaMetricName       = "UsedCapacity"
       staticCriteriaAggregation      = "Average"
       staticCriteriaOperator         = "GreaterThan"
-      staticCriteriaAlertSensitivity = "Medium"
       staticCriteriaThreshold = 4947802324992
       
       
