@@ -49,6 +49,7 @@ jobs:
       ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID}}
       ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
       AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
+      TFPLAN_PAT: ${{ secrets.TFPLAN_PAT }}
     needs: [scan-checkov]
   deploy-uat:
     name: Deploy Infra to UAT
@@ -67,6 +68,7 @@ jobs:
       ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID}}
       ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
       AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
+      TFPLAN_PAT: ${{ secrets.TFPLAN_PAT }}
     needs: [scan-checkov]
 
   deploy-prod:
@@ -86,5 +88,6 @@ jobs:
       ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID}}
       ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
       AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
+      TFPLAN_PAT: ${{ secrets.TFPLAN_PAT }}
     needs: [deploy-dev, deploy-uat]
 
