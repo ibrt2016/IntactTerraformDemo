@@ -35,6 +35,8 @@ on:
         required: true
       AZURE_CREDENTIALS:
         required: true
+      TFPLAN_PAT:
+        required: true
       
 env:
   GH_ENVIRONMENT: ${{ inputs.gh_environment }}
