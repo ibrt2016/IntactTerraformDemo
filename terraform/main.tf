@@ -138,8 +138,8 @@ module "sacc" {
   tables = ["table1", "table2", "table3"]
   queues = ["queue1", "queue2"]
 
-  managed_identity_type = "UserAssigned"
-  managed_identity_ids  = [for k in azurerm_user_assigned_identity.example : k.id]
+  # managed_identity_type = "UserAssigned"
+  # managed_identity_ids  = [for k in azurerm_user_assigned_identity.example : k.id]
 
   lifecycles = [
     {
