@@ -82,6 +82,7 @@ jobs:
  
   deploy-azure-infra-terraform:
     name: Provison Azure infrastructure with Terraform
+    permissions: write-all
     environment: ${{ inputs.gh_environment }}
     runs-on: ubuntu-latest
     #needs: [scan-terraform-config]
