@@ -269,6 +269,7 @@ module "azmonitor-metric-alerts" {
       
       actionGroupID = module.azmonitor-action-groups.ag["0"].group1.id
     }
+ }
 }
 
 ##########################
