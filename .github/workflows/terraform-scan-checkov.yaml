@@ -10,7 +10,7 @@ on:
 jobs:
   scan-terraform-config:
     runs-on: ubuntu-latest
-    name: Run Static Code analysis for Terraform using Checkov
+    name: Scan Terraform configuration files using Checkov
     steps:
       - name: Checkout repo
         uses: actions/checkout@main
