@@ -181,3 +181,41 @@ module "app-isnights" {
   }
   depends_on = [ azurerm_resource_group.example ]
 }
+
+module "monitor" {
+  source = "./AzureMonitoring"
+  resource_group_name = azurerm_resource_group.example.name
+  location = var.location
+
+  action_group = {
+    name       = "example-action-group"
+    short_name = "expaag"
+    email_receiver = {
+      email_address           = "ibrt2012@gmail.com"
+      name                    = "monitoring-team"
+      use_common_alert_schema = false
+    }
+    webhook_receiver = {
+      name                    = "ServiceNow"
+      service_uri             = "https://Event_Management_Azure:KSRQYCYkWY4wKm2uSA@tieto.service-now.com/api/global/em/inbound_event?source=AzureLogAnalyticsEvent"
+      use_common_alert_schema = false
+    }
+  }
+
+  metric_alerts = {
+    "Used_Capacity-Critical" = {
+      description = "The percentage use of a storage account"
+      frequency   = "PT5M"
+      severity    = 0
+      scopes      = [module.sacc.storage_account_id]
+      window_size = "PT6H"
+      criteria = {
+        metric_namespace = "Microsoft.Storage/StorageAccounts"
+        metric_name      = "UsedCapacity"
+        aggregation      = "Average"
+        operator         = "GreaterThan"
+        threshold        = 4947802324992 #Alert will be triggered once it's breach 90% of threshold
+      }
+    },
+  }
+}

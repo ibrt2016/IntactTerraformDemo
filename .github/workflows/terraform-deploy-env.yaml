@@ -6,7 +6,7 @@ on:
     #paths: .github/workflows/terraform-deploy-env.yaml
   pull_request:
     branches: [ main ]
-    paths: .github/workflows/terraform-deploy-env.yaml
+    paths: [.github/workflows/terraform-deploy-env.yaml]
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
   
@@ -20,6 +20,11 @@ on:
 #   WORKING_DIRECTORY: terraform
   
 jobs:
+  scan-checkov:
+    name: Run Static Code analysis for Terraform using Checkov
+    uses: ibrt2016/IntactTerraformDemo/.github/workflows/terraform-scan-checkov.yaml@main
+    with:
+      working_directory: terraform
   deploy-dev:
     name: Deploy Infra to Development
     uses: ibrt2016/IntactTerraformDemo/.github/workflows/terraform-devops.yaml@main
@@ -37,6 +42,7 @@ jobs:
       ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID}}
       ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
       AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
+    needs: [scan-checkov]
   deploy-uat:
     name: Deploy Infra to UAT
     uses: ibrt2016/IntactTerraformDemo/.github/workflows/terraform-devops.yaml@main
@@ -54,6 +60,7 @@ jobs:
       ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID}}
       ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
       AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
+    needs: [scan-checkov]
 
   deploy-prod:
     name: Deploy Infra to Production
