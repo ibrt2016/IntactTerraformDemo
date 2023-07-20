@@ -11,6 +11,7 @@ jobs:
   scan-terraform-config:
     runs-on: ubuntu-latest
     name: Scan Terraform configuration files using Checkov
+    if: github.event.pull_request.merged == false
     steps:
       - name: Checkout repo
         uses: actions/checkout@main
