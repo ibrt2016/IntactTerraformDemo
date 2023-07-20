@@ -6,6 +6,11 @@ on:
       - main
     #paths: .github/workflows/terraform-deploy-env.yaml
   pull_request:
+    types:
+      - opened
+      - edited
+      - reopened
+      - synchronize
     branches:
       - main
     #paths: [.github/workflows/terraform-deploy-env.yaml]
