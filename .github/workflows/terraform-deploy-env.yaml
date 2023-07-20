@@ -21,7 +21,7 @@ on:
   
 jobs:
   scan-checkov:
-    name: Scan Terraform files with Checkov
+    name: Run Static Code analysis for Terraform using Checkov
     uses: ibrt2016/IntactTerraformDemo/.github/workflows/terraform-scan-checkov.yaml@main
     with:
       working_directory: terraform
