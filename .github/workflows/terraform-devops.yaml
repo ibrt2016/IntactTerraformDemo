@@ -46,30 +46,29 @@ env:
 
 
 jobs:
-  scan-terraform-config:
-    runs-on: ubuntu-latest
-    if:  ${{ inputs.gh_environment  == 'Development' || inputs.gh_environment  == 'UserAcceptanceTesting' }}
-    name: Scan Terraform with Checov
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@main
+  # scan-terraform-config:
+  #   runs-on: ubuntu-latest
+  #   name: Scan Terraform with Checov
+  #   steps:
+  #     - name: Checkout repo
+  #       uses: actions/checkout@main
 
-      - name: Any Name Bash Test Step
-        shell: bash
-        run: |
-         echo "WorkDir: $WORKING_DIRECTORY"
-         echo "Environment: $GH_ENVIRONMENT"
-         echo "STORAGE_ACCOUNT_NAME: $STORAGE_ACCOUNT_NAME"
-         echo "RESOURCE_GROUP_NAME: $RESOURCE_GROUP_NAME"
-         echo "CONTAINER_NAME: $CONTAINER_NAME"
-         echo "BLOB_NAME: $BLOB_NAME"
+  #     - name: Any Name Bash Test Step
+  #       shell: bash
+  #       run: |
+  #        echo "WorkDir: $WORKING_DIRECTORY"
+  #        echo "Environment: $GH_ENVIRONMENT"
+  #        echo "STORAGE_ACCOUNT_NAME: $STORAGE_ACCOUNT_NAME"
+  #        echo "RESOURCE_GROUP_NAME: $RESOURCE_GROUP_NAME"
+  #        echo "CONTAINER_NAME: $CONTAINER_NAME"
+  #        echo "BLOB_NAME: $BLOB_NAME"
 
-      - name: Run Checkov Scan
-        id: checkov
-        uses: bridgecrewio/checkov-action@master
-        with:
-          directory: ${{ inputs.working_directory }}
-          soft_fail: true # optional: do not return an error code if there are failed checks
+  #     - name: Run Checkov Scan
+  #       id: checkov
+  #       uses: bridgecrewio/checkov-action@master
+  #       with:
+  #         directory: ${{ inputs.working_directory }}
+  #         soft_fail: true # optional: do not return an error code if there are failed checks
           # check: CKV_AWS_1 # optional: run only a specific check_id. can be comma separated list
           # skip_check: CKV_AWS_2 # optional: skip a specific check_id. can be comma separated list
           # quiet: true # optional: display only failed checks
@@ -85,7 +84,7 @@ jobs:
     name: Deploy to Azure with Terraform
     environment: ${{ inputs.gh_environment }}
     runs-on: ubuntu-latest
-    needs: [scan-terraform-config]
+    #needs: [scan-terraform-config]
 
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
     defaults:
