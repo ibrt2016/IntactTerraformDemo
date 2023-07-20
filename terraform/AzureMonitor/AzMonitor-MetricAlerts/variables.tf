@@ -24,7 +24,6 @@ variable "metricAlerts" {
     alertFrequency              = string
     alertWindowSize             = string
     alertSeverity               = number
-    alertThreshold              = number
     alertTargetResourceType     = string
     alertTargetResourceLoc      = string
     dynCriteriaMetricNamespace  = string
@@ -49,7 +48,6 @@ variable "metricAlerts-noDimensions" {
     alertFrequency              = string
     alertWindowSize             = string
     alertSeverity               = number
-    alertThreshold              = number
     alertTargetResourceType     = string
     alertTargetResourceLoc      = string
     dynCriteriaMetricNamespace  = string
@@ -57,6 +55,30 @@ variable "metricAlerts-noDimensions" {
     dynCriteriaAggregation      = string
     dynCriteriaOperator         = string
     dynCriteriaAlertSensitivity = string
+    actionGroupID               = string
+  }))
+  default = {}
+}
+
+variable "metricStaticAlerts-noDimensions" {
+  type = map(object({
+    alertName                   = string
+    alertResourceGroupName      = string
+    alertScopes                 = list(string)
+    alertDescription            = string
+    alertEnabled                = bool
+    alertAutoMitigate           = bool
+    alertFrequency              = string
+    alertWindowSize             = string
+    alertSeverity               = number
+    alertTargetResourceType     = string
+    alertTargetResourceLoc      = string
+    staticCriteriaMetricNamespace  = string
+    staticCriteriaMetricName       = string
+    staticCriteriaAggregation      = string
+    staticCriteriaOperator         = string
+    staticCriteriaThreshold        = number
+    staticCriteriaAlertSensitivity = string
     actionGroupID               = string
   }))
   default = {}
