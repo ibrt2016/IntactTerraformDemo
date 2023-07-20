@@ -258,13 +258,13 @@ module "azmonitor-metric-alerts" {
       alertFrequency              = "PT5M"
       alertWindowSize             = "PT6H"
       alertSeverity               = 0
+      alertThreshold              = 4947802324992
       alertTargetResourceType     = "Microsoft.Storage/StorageAccounts"
       alertTargetResourceLoc      = module.sacc.resource_group_location
       dynCriteriaMetricNamespace  = "Microsoft.Storage/StorageAccounts"
       dynCriteriaMetricName       = "UsedCapacity"
       dynCriteriaAggregation      = "Average"
       dynCriteriaOperator         = "GreaterThan"
-      dynCriteriaThreshold        = 4947802324992
       dynCriteriaAlertSensitivity = "Medium"
       
       actionGroupID = module.azmonitor-action-groups.ag["0"].group1.id

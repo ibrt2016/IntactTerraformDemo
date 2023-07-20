@@ -24,13 +24,13 @@ variable "metricAlerts" {
     alertFrequency              = string
     alertWindowSize             = string
     alertSeverity               = number
+    alertThreshold              = number
     alertTargetResourceType     = string
     alertTargetResourceLoc      = string
     dynCriteriaMetricNamespace  = string
     dynCriteriaMetricName       = string
     dynCriteriaAggregation      = string
     dynCriteriaOperator         = string
-    dynCriteriaThreshold        = number
     dynCriteriaAlertSensitivity = string
     dynCriteriaDimensions       = list(map(string))
     actionGroupID               = string
@@ -49,13 +49,13 @@ variable "metricAlerts-noDimensions" {
     alertFrequency              = string
     alertWindowSize             = string
     alertSeverity               = number
+    alertThreshold              = number
     alertTargetResourceType     = string
     alertTargetResourceLoc      = string
     dynCriteriaMetricNamespace  = string
     dynCriteriaMetricName       = string
     dynCriteriaAggregation      = string
     dynCriteriaOperator         = string
-    dynCriteriaThreshold        = number
     dynCriteriaAlertSensitivity = string
     actionGroupID               = string
   }))

@@ -10,6 +10,7 @@ resource "azurerm_monitor_metric_alert" "alert" {
   frequency                = each.value.alertFrequency
   window_size              = each.value.alertWindowSize
   severity                 = each.value.alertSeverity
+  threshold                = each.value.alertThreshold
   target_resource_type     = each.value.alertTargetResourceType
   target_resource_location = each.value.alertTargetResourceLoc
 
@@ -18,7 +19,6 @@ resource "azurerm_monitor_metric_alert" "alert" {
     metric_name       = each.value.dynCriteriaMetricName
     aggregation       = each.value.dynCriteriaAggregation
     operator          = each.value.dynCriteriaOperator
-    threshold         = each.value.dynCriteriaThreshold
     alert_sensitivity = each.value.dynCriteriaAlertSensitivity
 
     dynamic "dimension" {
@@ -47,6 +47,7 @@ resource "azurerm_monitor_metric_alert" "alert-nodimensions" {
   frequency                = each.value.alertFrequency
   window_size              = each.value.alertWindowSize
   severity                 = each.value.alertSeverity
+  threshold                = each.value.alertThreshold
   target_resource_type     = each.value.alertTargetResourceType
   target_resource_location = each.value.alertTargetResourceLoc
   
@@ -55,7 +56,6 @@ resource "azurerm_monitor_metric_alert" "alert-nodimensions" {
     metric_name       = each.value.dynCriteriaMetricName
     aggregation       = each.value.dynCriteriaAggregation
     operator          = each.value.dynCriteriaOperator
-    threshold         = each.value.dynCriteriaThreshold
     alert_sensitivity = each.value.dynCriteriaAlertSensitivity
   }
   action {
