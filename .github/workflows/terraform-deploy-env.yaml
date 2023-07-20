@@ -73,6 +73,7 @@ jobs:
 
   deploy-prod:
     name: Deploy Infra to Production
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     uses: ibrt2016/IntactTerraformDemo/.github/workflows/terraform-devops.yaml@main
     with:
       gh_environment: Production
